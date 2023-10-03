@@ -93,12 +93,12 @@ img {
 }
 
 .card {
-  width: 240px;
+  width: 220px;
   background-color: rgb(230, 230, 230);
   border-radius: 5px;
   padding: 5px;
   box-shadow: 1px 2px 3px #333;
-  font-size: 18px;
+  font-size: 12px;
   filter: grayscale(1);
   transition: all 0.2s;
 }
@@ -110,6 +110,34 @@ img {
 
 .card h2 {
   background-color: rgb(255, 214, 214);
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   padding: 10px;
+}
+
+.pokemon-name {
+  text-transform: capitalize;
+}
+
+.id {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgb(255, 214, 214);
+  padding: 8px;
+  border-radius: 0 5px 0 15px;
+  font-size: 24px;
+  opacity: 0.8;
+  z-index: 200;
+}
+
+.types {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background-color: rgb(255, 178, 178);
+  border-radius: 0 0 5px 5px;
+}
+
+.type {
+  font-size: 16px;
 }
