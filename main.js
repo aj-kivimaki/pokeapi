@@ -1,26 +1,28 @@
 /* - - - DOCUMENT ELEMENTS - - - */
 const cardsEl = document.querySelector(".cards");
-/* const btn1El = document.querySelector("#btn1");
+const btn1El = document.querySelector("#btn1");
 const btn2El = document.querySelector("#btn2");
 const btn3El = document.querySelector("#btn3");
 const btn4El = document.querySelector("#btn4");
 const btn5El = document.querySelector("#btn5");
 const btn6El = document.querySelector("#btn6");
 const btn7El = document.querySelector("#btn7");
-const btn8El = document.querySelector("#btn8"); */
+const btn8El = document.querySelector("#btn8");
+const btn9El = document.querySelector("#btn9");
 
 // URL
 const URL = "https://pokeapi.co/api/v2/";
 
 // PATHS
-const gen1 = "pokemon?limit=121&offset=0";
-/* const gen2 = "pokemon?limit=121&offset=121";
-const gen3 = "pokemon?limit=121&offset=242";
-const gen4 = "pokemon?limit=121&offset=363";
-const gen5 = "pokemon?limit=121&offset=484";
-const gen6 = "pokemon?limit=121&offset=605";
-const gen7 = "pokemon?limit=121&offset=726";
-const gen8 = "pokemon?limit=121&offset=847"; */
+const gen1 = "pokemon?limit=151&offset=0";
+const gen2 = "pokemon?limit=100&offset=151";
+const gen3 = "pokemon?limit=135&offset=251";
+const gen4 = "pokemon?limit=107&offset=386";
+const gen5 = "pokemon?limit=156&offset=493";
+const gen6 = "pokemon?limit=72&offset=649";
+const gen7 = "pokemon?limit=88&offset=721";
+const gen8 = "pokemon?limit=96&offset=809";
+const gen9 = "pokemon?limit=105&offset=905";
 
 /* - - - VARIABLES - - - */
 let pokeData = [];
@@ -49,8 +51,8 @@ const pokeCards = () => {
   cardsEl.innerHTML = card;
 };
 
-const fetchData = async () => {
-  await fetch(URL + gen1)
+const fetchData = async (path) => {
+  await fetch(URL + path)
     .then((res) => res.json())
     .then((data) => {
       const fetches = data.results.map((item) => {
@@ -68,7 +70,6 @@ const fetchData = async () => {
       Promise.all(fetches).then((res) => {
         pokeData = res;
         pokeCards();
-        // console.log(pokeData);
       });
     });
 };
@@ -76,11 +77,12 @@ const fetchData = async () => {
 fetchData();
 
 /* - - - EVENT LISTENERS - - - */
-/* btn1El.addEventListener("click");
-btn2El.addEventListener("click");
-btn3El.addEventListener("click");
-btn4El.addEventListener("click");
-btn5El.addEventListener("click");
-btn6El.addEventListener("click");
-btn7El.addEventListener("click");
-btn8El.addEventListener("click"); */
+btn1El.addEventListener("click", () => fetchData(gen1));
+btn2El.addEventListener("click", () => fetchData(gen2));
+btn3El.addEventListener("click", () => fetchData(gen3));
+btn4El.addEventListener("click", () => fetchData(gen4));
+btn5El.addEventListener("click", () => fetchData(gen5));
+btn6El.addEventListener("click", () => fetchData(gen6));
+btn7El.addEventListener("click", () => fetchData(gen7));
+btn8El.addEventListener("click", () => fetchData(gen8));
+btn9El.addEventListener("click", () => fetchData(gen9));
