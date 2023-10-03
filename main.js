@@ -11,7 +11,7 @@ const btn8El = document.querySelector("#btn8");
 const btn9El = document.querySelector("#btn9");
 
 // URL
-const URL = "https://pokeapi.co/api/v2/";
+const url = "https://pokeapi.co/api/v2/";
 
 // PATHS
 const gen1 = "pokemon?limit=151&offset=0";
@@ -29,7 +29,6 @@ let pokeData = [];
 
 /* - - - FUNCTIONS - - - */
 const pokeCards = () => {
-  console.log(pokeData);
   const card = pokeData
     .map((pokemon) => {
       return `
@@ -52,7 +51,7 @@ const pokeCards = () => {
 };
 
 const fetchData = async (path) => {
-  await fetch(URL + path)
+  await fetch(url + path)
     .then((res) => res.json())
     .then((data) => {
       const fetches = data.results.map((item) => {
@@ -73,8 +72,6 @@ const fetchData = async (path) => {
       });
     });
 };
-
-fetchData();
 
 /* - - - EVENT LISTENERS - - - */
 btn1El.addEventListener("click", () => fetchData(gen1));
