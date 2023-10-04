@@ -1,5 +1,4 @@
 /* - - - DOCUMENT ELEMENTS - - - */
-const cardsEl = document.querySelector(".cards");
 const btn1El = document.querySelector("#btn1");
 const btn2El = document.querySelector("#btn2");
 const btn3El = document.querySelector("#btn3");
@@ -10,6 +9,7 @@ const btn7El = document.querySelector("#btn7");
 const btn8El = document.querySelector("#btn8");
 const btn9El = document.querySelector("#btn9");
 const searchEl = document.querySelector("#search");
+const cardsEl = document.querySelector(".cards");
 
 // URL
 const url = "https://pokeapi.co/api/v2/";
@@ -60,7 +60,7 @@ const fetchData = async (path) => {
           .then((res) => res.json())
           .then((data) => {
             return {
-              id: data.id,
+              id: String(data.id),
               name: data.name,
               img: data.sprites.other["official-artwork"].front_default,
               types: data.types,
@@ -85,10 +85,12 @@ btn7El.addEventListener("click", () => fetchData(gen7));
 btn8El.addEventListener("click", () => fetchData(gen8));
 btn9El.addEventListener("click", () => fetchData(gen9));
 
-searchEl.addEventListener("keyup", (e) => {
+searchEl.addEventListener("input", (e) => {
   const searchString = e.target.value.toLowerCase();
   const filteredPokemons = pokeData.filter((pokemon) => {
-    return pokemon.name.includes(searchString);
+    return (
+      pokemon.name.includes(searchString) || pokemon.id.includes(searchString)
+    );
   });
   pokeCards(filteredPokemons);
 });
