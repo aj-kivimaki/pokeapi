@@ -9,7 +9,7 @@ const btn6El = document.querySelector("#btn6");
 const btn7El = document.querySelector("#btn7");
 const btn8El = document.querySelector("#btn8");
 const btn9El = document.querySelector("#btn9");
-const searchBtnEl = document.querySelector("#search");
+const searchEl = document.querySelector("#search");
 
 // URL
 const url = "https://pokeapi.co/api/v2/";
@@ -29,12 +29,12 @@ const gen9 = "pokemon?limit=105&offset=905";
 let pokeData = [];
 
 /* - - - FUNCTIONS - - - */
-const pokeCards = () => {
-  const card = pokeData
+const pokeCards = (data) => {
+  const card = data
     .map((pokemon) => {
       return `
     <div class="card">
-      <img src="${pokemon.img}" alt="pokemon" />
+      <img src="${pokemon.img}" alt="${pokemon.name}" />
       <h2 class="pokemon-name">${pokemon.name}</h2>
       <div class="id">#${pokemon.id}</div>
       <div class="types">
@@ -49,16 +49,6 @@ const pokeCards = () => {
     })
     .join("");
   cardsEl.innerHTML = card;
-};
-
-const filterData = () => {
-  const input = searchBtnEl.value;
-  /* pokeData.filter(input); */
-  console.log(
-    pokeData.filter((pokemon) => {
-      return pokemon.name === input.toLowerCase();
-    })
-  );
 };
 
 const fetchData = async (path) => {
@@ -79,7 +69,7 @@ const fetchData = async (path) => {
       });
       Promise.all(fetches).then((res) => {
         pokeData = res;
-        pokeCards();
+        pokeCards(pokeData);
       });
     });
 };
@@ -94,4 +84,11 @@ btn6El.addEventListener("click", () => fetchData(gen6));
 btn7El.addEventListener("click", () => fetchData(gen7));
 btn8El.addEventListener("click", () => fetchData(gen8));
 btn9El.addEventListener("click", () => fetchData(gen9));
-searchBtnEl.addEventListener("change", filterData);
+
+searchEl.addEventListener("keyup", (e) => {
+  const searchString = e.target.value.toLowerCase();
+  const filteredPokemons = pokeData.filter((pokemon) => {
+    return pokemon.name.includes(searchString);
+  });
+  pokeCards(filteredPokemons);
+});
