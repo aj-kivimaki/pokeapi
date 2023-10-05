@@ -51,6 +51,17 @@ const pokeCards = (data) => {
   cardsEl.innerHTML = card;
 };
 
+const filterData = (e) => {
+  const searchString = e.target.value.toLowerCase();
+  const filteredPokemons = pokeData.filter((pokemon) => {
+    return (
+      pokemon.name.startsWith(searchString) ||
+      pokemon.id.startsWith(searchString)
+    );
+  });
+  pokeCards(filteredPokemons);
+};
+
 const fetchData = async (path) => {
   await fetch(url + path)
     .then((res) => res.json())
@@ -84,13 +95,4 @@ btn6El.addEventListener("click", () => fetchData(gen6));
 btn7El.addEventListener("click", () => fetchData(gen7));
 btn8El.addEventListener("click", () => fetchData(gen8));
 btn9El.addEventListener("click", () => fetchData(gen9));
-
-searchEl.addEventListener("input", (e) => {
-  const searchString = e.target.value.toLowerCase();
-  const filteredPokemons = pokeData.filter((pokemon) => {
-    return (
-      pokemon.name.includes(searchString) || pokemon.id.includes(searchString)
-    );
-  });
-  pokeCards(filteredPokemons);
-});
+searchEl.addEventListener("input", (e) => filterData(e));
