@@ -8,8 +8,9 @@ const btn6El = document.querySelector("#btn6");
 const btn7El = document.querySelector("#btn7");
 const btn8El = document.querySelector("#btn8");
 const btn9El = document.querySelector("#btn9");
-const searchEl = document.querySelector("#search");
-const cardsEl = document.querySelector(".cards");
+const searchEl = document.querySelector("#js-search");
+const cardsEl = document.querySelector("#js-cards");
+const infoEl = document.querySelector("#js-info");
 
 // URL
 const url = "https://pokeapi.co/api/v2/";
@@ -30,6 +31,7 @@ let pokeData = [];
 
 /* - - - FUNCTIONS - - - */
 const pokeCards = (data) => {
+  console.log(data);
   const card = data
     .map((pokemon) => {
       return `
@@ -37,12 +39,16 @@ const pokeCards = (data) => {
       <img src="${pokemon.img}" alt="${pokemon.name}" />
       <h2 class="pokemon-name">${pokemon.name}</h2>
       <div class="id">#${pokemon.id}</div>
-      <div class="types">
+      <div class="types characteristics-container">
       ${pokemon.types
         .map((item) => {
           return `<p class="type">${item.type.name}</p>`;
         })
         .join("")}
+      </div>
+      <div class="measurements characteristics-container">
+        <p class="measurement">${"100 cm"}</p>
+        <p class="measurement">${"4.5 kg"}</p>
       </div>
     </div>
     `;
@@ -51,16 +57,29 @@ const pokeCards = (data) => {
   cardsEl.innerHTML = card;
 };
 
+const showInfo = () => {
+  const info = `There are ${151} pokemons in generation ${1}`;
+};
+
 const filterData = (e) => {
   const searchString = e.target.value.toLowerCase();
   const filteredPokemons = pokeData.filter((pokemon) => {
+    for (let item of pokemon.types) {
+      if (item.type.name.startsWith(searchString)) return true;
+    }
+
     return (
       pokemon.name.startsWith(searchString) ||
       pokemon.id.startsWith(searchString)
     );
   });
   pokeCards(filteredPokemons);
+  showInfo();
 };
+
+/* const fetchPath = async () => {
+  await fetch('https://pokeapi.co/api/v2/generation/{id or name}/');
+}; */
 
 const fetchData = async (path) => {
   await fetch(url + path)
