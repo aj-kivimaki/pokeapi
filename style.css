@@ -12,7 +12,7 @@ body {
   font-family: monospace;
   color: #444;
   background-color: lightblue;
-  background-image: url(/pics/poke-bg.jpg);
+  background-image: url(./pics/poke-bg.jpg);
   background-size: cover;
   background-attachment: fixed;
   height: 100vh;
@@ -21,24 +21,28 @@ body {
 }
 
 h1 {
-  font-size: 48px;
-  padding-top: 40px;
+  font-size: 60px;
+  padding-top: 35px;
+  padding-bottom: 10px;
   text-shadow: 1px 2px white;
 }
 
 .buttons {
-  padding: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
 }
 
 button {
+  width: 65px;
   font-family: monospace;
   border: none;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border-radius: 5px;
   background-color: rgb(47, 152, 69);
   color: white;
   font-size: 18px;
-  margin: 10px;
   transition: all 0.25s;
   box-shadow: 1px 2px 2px #555;
 }
@@ -54,6 +58,8 @@ button:active {
 }
 
 .info {
+  text-align: center;
+  width: 80%;
   font-size: 26px;
   padding-bottom: 15px;
 }
@@ -72,19 +78,20 @@ button:active {
 
 input {
   padding: 12px 0 12px 32px;
+  margin-bottom: 10px;
   border: 2px solid white;
   border-radius: 5px;
   font-size: 20px;
   color: #444;
   width: 102px;
-  transition: all 0.8s;
+  transition: all 0.6s;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
 input:focus {
   outline: transparent;
   border: 2px solid rgb(47, 152, 69);
-  width: 350px;
+  width: 330px;
 }
 
 img {
@@ -93,7 +100,7 @@ img {
 }
 
 .pokemon-img {
-  transition: all 0.8s;
+  transition: all 0.6s;
 }
 
 .pokemon-img:hover {
@@ -105,7 +112,7 @@ img {
   justify-content: center;
   flex-wrap: wrap;
   gap: 30px;
-  margin: 40px 16px 0 16px;
+  margin: 40px 32px 0 32px;
   padding-bottom: 20px;
 }
 
@@ -117,7 +124,7 @@ img {
   box-shadow: 1px 2px 2px #333;
   font-size: 12px;
   filter: grayscale(1);
-  transition: all 0.8s;
+  transition: all 0.6s;
 }
 
 .card:hover {
@@ -153,7 +160,7 @@ img {
 .icon {
   /* width: 100%; */
   height: 50px;
-  transition: all 0.8s;
+  transition: all 0.6s;
 }
 
 .icon:hover {
@@ -170,4 +177,17 @@ img {
 .measurements {
   justify-content: space-between;
   background-color: rgb(34, 34, 34);
+}
+
+@media (max-width: 740px) {
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 260px;
+    gap: 10px;
+  }
+
+  .info {
+    max-width: 470px;
+  }
 }

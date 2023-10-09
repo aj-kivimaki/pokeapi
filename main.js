@@ -23,7 +23,7 @@ const pokeCards = (data) => {
       ${pokemon.types
         .map((item) => {
           return `<div class="icons">
-          <img class="icon" title="${item.type.name}" src="/icons/${item.type.name}.svg" alt="${item.type.name}">
+          <img class="icon" title="${item.type.name}" src="./icons/${item.type.name}.svg" alt="${item.type.name}">
           </div>`;
         })
         .join("")}
