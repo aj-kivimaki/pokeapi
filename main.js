@@ -1,54 +1,37 @@
 /* - - - DOCUMENT ELEMENTS - - - */
-const btn1El = document.querySelector("#btn1");
-const btn2El = document.querySelector("#btn2");
-const btn3El = document.querySelector("#btn3");
-const btn4El = document.querySelector("#btn4");
-const btn5El = document.querySelector("#btn5");
-const btn6El = document.querySelector("#btn6");
-const btn7El = document.querySelector("#btn7");
-const btn8El = document.querySelector("#btn8");
-const btn9El = document.querySelector("#btn9");
+const btnEls = document.querySelectorAll(".btn");
 const searchEl = document.querySelector("#js-search");
 const cardsEl = document.querySelector("#js-cards");
 const infoEl = document.querySelector("#js-info");
 
 // URL
-const url = "https://pokeapi.co/api/v2/";
-
-// PATHS
-const gen1 = "pokemon?limit=151&offset=0";
-const gen2 = "pokemon?limit=100&offset=151";
-const gen3 = "pokemon?limit=135&offset=251";
-const gen4 = "pokemon?limit=107&offset=386";
-const gen5 = "pokemon?limit=156&offset=493";
-const gen6 = "pokemon?limit=72&offset=649";
-const gen7 = "pokemon?limit=88&offset=721";
-const gen8 = "pokemon?limit=96&offset=809";
-const gen9 = "pokemon?limit=105&offset=905";
+const url = "https://pokeapi.co/api/v2";
 
 /* - - - VARIABLES - - - */
 let pokeData = [];
+const offsets = [0, 151, 251, 386, 493, 649, 721, 809, 905];
 
 /* - - - FUNCTIONS - - - */
 const pokeCards = (data) => {
-  console.log(data);
   const card = data
     .map((pokemon) => {
       return `
     <div class="card">
-      <img src="${pokemon.img}" alt="${pokemon.name}" />
-      <h2 class="pokemon-name">${pokemon.name}</h2>
       <div class="id">#${pokemon.id}</div>
+      <img class="pokemon-img" src="${pokemon.img}" alt="${pokemon.name}" />
       <div class="types characteristics-container">
       ${pokemon.types
         .map((item) => {
-          return `<p class="type">${item.type.name}</p>`;
+          return `<div class="icons">
+          <img class="icon" title="${item.type.name}" src="/icons/${item.type.name}.svg" alt="${item.type.name}">
+          </div>`;
         })
         .join("")}
       </div>
+      <h2 class="pokemon-name">${pokemon.name}</h2>
       <div class="measurements characteristics-container">
-        <p class="measurement">${"100 cm"}</p>
-        <p class="measurement">${"4.5 kg"}</p>
+        <p class="measurement">${pokemon.height * 10} cm</p>
+        <p class="measurement">${pokemon.weight / 10} kg</p>
       </div>
     </div>
     `;
@@ -57,31 +40,44 @@ const pokeCards = (data) => {
   cardsEl.innerHTML = card;
 };
 
-const showInfo = () => {
-  const info = `There are ${151} pokemons in generation ${1}`;
+const displayGenInfo = (genNumber, pokemonAmount) => {
+  const info = `There are ${pokemonAmount} pokemons in generation ${genNumber}`;
+  infoEl.textContent = info;
 };
 
 const filterData = (e) => {
   const searchString = e.target.value.toLowerCase();
   const filteredPokemons = pokeData.filter((pokemon) => {
-    for (let item of pokemon.types) {
+    for (const item of pokemon.types) {
       if (item.type.name.startsWith(searchString)) return true;
     }
-
-    return (
-      pokemon.name.startsWith(searchString) ||
-      pokemon.id.startsWith(searchString)
-    );
+    return pokemon.name.startsWith(searchString) || pokemon.id === searchString;
   });
   pokeCards(filteredPokemons);
-  showInfo();
 };
 
-/* const fetchPath = async () => {
-  await fetch('https://pokeapi.co/api/v2/generation/{id or name}/');
-}; */
+const fetchGen = async (e) => {
+  // get the generation number from the button value
+  const genNumber = e.target.value;
+  const path = `/generation/${genNumber}`;
 
-const fetchData = async (path) => {
+  // get the amount of pokemons
+  await fetch(url + path)
+    .then((res) => res.json())
+    .then((data) => {
+      const genData = {
+        pokemonAmount: data.pokemon_species.length,
+      };
+
+      displayGenInfo(genNumber, genData.pokemonAmount);
+      fetchData(genNumber, genData.pokemonAmount);
+    });
+};
+
+const fetchData = async (gen, pokemonAmount) => {
+  const offset = offsets[gen - 1];
+  const path = `/pokemon?limit=${pokemonAmount}&offset=${offset}`;
+
   await fetch(url + path)
     .then((res) => res.json())
     .then((data) => {
@@ -94,9 +90,12 @@ const fetchData = async (path) => {
               name: data.name,
               img: data.sprites.other["official-artwork"].front_default,
               types: data.types,
+              weight: data.weight,
+              height: data.height,
             };
           });
       });
+
       Promise.all(fetches).then((res) => {
         pokeData = res;
         pokeCards(pokeData);
@@ -105,13 +104,5 @@ const fetchData = async (path) => {
 };
 
 /* - - - EVENT LISTENERS - - - */
-btn1El.addEventListener("click", () => fetchData(gen1));
-btn2El.addEventListener("click", () => fetchData(gen2));
-btn3El.addEventListener("click", () => fetchData(gen3));
-btn4El.addEventListener("click", () => fetchData(gen4));
-btn5El.addEventListener("click", () => fetchData(gen5));
-btn6El.addEventListener("click", () => fetchData(gen6));
-btn7El.addEventListener("click", () => fetchData(gen7));
-btn8El.addEventListener("click", () => fetchData(gen8));
-btn9El.addEventListener("click", () => fetchData(gen9));
+btnEls.forEach((btn) => btn.addEventListener("click", (e) => fetchGen(e)));
 searchEl.addEventListener("input", (e) => filterData(e));

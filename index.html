@@ -12,22 +12,26 @@
     <title>Poke API</title>
   </head>
   <body>
-    <h1>Pokedex</h1>
+    <h1>Pokédex</h1>
     <div class="buttons">
-      <button id="btn1">Gen I</button>
-      <button id="btn2">Gen II</button>
-      <button id="btn3">Gen III</button>
-      <button id="btn4">Gen IV</button>
-      <button id="btn5">Gen V</button>
-      <button id="btn6">Gen VI</button>
-      <button id="btn7">Gen VII</button>
-      <button id="btn8">Gen VIII</button>
-      <button id="btn9">Gen IX</button>
+      <button class="btn" value="1">Gen I</button>
+      <button class="btn" value="2">Gen II</button>
+      <button class="btn" value="3">Gen III</button>
+      <button class="btn" value="4">Gen IV</button>
+      <button class="btn" value="5">Gen V</button>
+      <button class="btn" value="6">Gen VI</button>
+      <button class="btn" value="7">Gen VII</button>
+      <button class="btn" value="8">Gen VIII</button>
+      <button class="btn" value="9">Gen IX</button>
     </div>
     <div id="js-info" class="info">Choose the generation to find pokemons</div>
     <div class="inputs">
-      <input id="js-search" type="text" placeholder="search" />
-      <span class="material-symbols-outlined icon"> search </span>
+      <input
+        id="js-search"
+        type="text"
+        placeholder="search by name, number or type"
+      />
+      <span class="material-symbols-outlined search-icon"> search </span>
     </div>
     <div id="js-cards" class="cards"></div>
   </body>
